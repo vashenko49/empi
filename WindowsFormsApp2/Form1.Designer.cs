@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -52,6 +53,9 @@
             this.button_START = new System.Windows.Forms.Button();
             this.label_12 = new System.Windows.Forms.Label();
             this.label_count_files = new System.Windows.Forms.Label();
+            this.progressBar_count = new System.Windows.Forms.ProgressBar();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -263,12 +267,24 @@
             this.label_count_files.TabIndex = 25;
             this.label_count_files.Text = "data";
             // 
+            // progressBar_count
+            // 
+            this.progressBar_count.Location = new System.Drawing.Point(12, 329);
+            this.progressBar_count.Name = "progressBar_count";
+            this.progressBar_count.Size = new System.Drawing.Size(181, 23);
+            this.progressBar_count.TabIndex = 26;
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ClientSize = new System.Drawing.Size(206, 337);
+            this.ClientSize = new System.Drawing.Size(206, 364);
+            this.Controls.Add(this.progressBar_count);
             this.Controls.Add(this.label_count_files);
             this.Controls.Add(this.label_12);
             this.Controls.Add(this.button_START);
@@ -296,6 +312,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Metrics";
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -325,6 +342,8 @@
         private System.Windows.Forms.Button button_START;
         private System.Windows.Forms.Label label_12;
         private System.Windows.Forms.Label label_count_files;
+        private System.Windows.Forms.ProgressBar progressBar_count;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }
 

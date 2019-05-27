@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
+using WindowsFormsApp2.Properties;
 
 namespace WindowsFormsApp2
 {
@@ -29,6 +30,11 @@ namespace WindowsFormsApp2
         {
             InitializeComponent();
             textBox_address_folder.Text = folder_directori;
+            progressBar_count.Value = 0;
+        }
+        private void UpdateProgressBar(int percentage)
+        {
+            progressBar_count.Value = percentage;
         }
 
         private void label9_Click(object sender, EventArgs e)
@@ -68,6 +74,8 @@ namespace WindowsFormsApp2
 
         private void button_START_Click(object sender, EventArgs e)
         {
+
+            UpdateProgressBar(3);
             //ищем все вложенные папки 
             string[] S = SearchDirectory(folder_directori);
             foreach (string folderPatch in S)
@@ -88,6 +96,7 @@ namespace WindowsFormsApp2
                 {
                 }
             }
+            UpdateProgressBar(33);
             if (list_adress_file.Count == 0 || folder_directori=="" || folder_directori== "select")
             {
                 MessageBox.Show("Select directory");
@@ -113,6 +122,10 @@ namespace WindowsFormsApp2
                     //PNAS
                     int PNAS = Regex.Matches(clearfile, @"(public|static|\s) +[\w\<\>\[\]]+\s+(\w+) *\([^\)]*\) *(\{?|[^;])").Count;
                     methodPNAS += PNAS;
+
+
+                    UpdateProgressBar(66);
+
                     //количество пакетов
                     int NOP = Regex.Matches(clearfile, @"^(package)\s?[\w.]+;").Count;
                     packageCount += NOP;
@@ -151,18 +164,55 @@ namespace WindowsFormsApp2
 
 
             }
+            UpdateProgressBar(80);
             label_count_files.Text = Convert.ToString(list_adress_file.Count);
             label_LOC.Text = Convert.ToString(codeLinesCount);
             label_NOM.Text = Convert.ToString(methodsCount);
             label_NOC.Text = Convert.ToString(classesCount);
             label_NOP.Text = Convert.ToString(packageCount);
 
-            label_NDD.Text = Convert.ToString(Math.Round(classesCount / countNDD,6));
-            label_CALL.Text = Convert.ToString(Math.Round(methodsCount /countCALL,6));
-            label_WMC.Text = Convert.ToString(Math.Round(methodsCount/countWMC,4));
-            label_PNAS.Text = Convert.ToString(Math.Round(methodPNAS/methodsCount,4));
-            label_TCC.Text = Convert.ToString(Math.Round(countTCC / list_adress_file.Count,4));
+            if (countNDD != 0)
+            {
+                label_NDD.Text = Convert.ToString(Math.Round(classesCount / countNDD, 6));
+            }
+            else
+            {
+                label_NDD.Text = Convert.ToString(0);
+            }
+            if (countCALL != 0)
+            {
+                label_CALL.Text = Convert.ToString(Math.Round(methodsCount / countCALL, 6));
+            }
+            else
+            {
+                label_CALL.Text = Convert.ToString(0);
+            }
+            if (countWMC != 0)
+            {
+                label_WMC.Text = Convert.ToString(Math.Round(methodsCount / countWMC, 4));
+            }
+            else
+            {
+                label_WMC.Text = Convert.ToString(0);
+            }
+            if(methodsCount!=0){
+                label_PNAS.Text = Convert.ToString(Math.Round(methodPNAS / methodsCount, 4));
+            }
+            else
+            {
+                label_PNAS.Text = Convert.ToString(0);
+            }
+            UpdateProgressBar(94);
+            if (list_adress_file.Count != 0)
+            {
+                label_TCC.Text = Convert.ToString(Math.Round(countTCC / list_adress_file.Count, 4));
+            }
+            else
+            {
+                label_TCC.Text = Convert.ToString(0);
+            }
 
+            UpdateProgressBar(100);
         }
 
         private string clearCode(string source)
