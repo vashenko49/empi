@@ -55,6 +55,8 @@
             this.label_count_files = new System.Windows.Forms.Label();
             this.progressBar_count = new System.Windows.Forms.ProgressBar();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.label_full_LOC = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -238,6 +240,7 @@
             this.textBox_address_folder.Name = "textBox_address_folder";
             this.textBox_address_folder.Size = new System.Drawing.Size(100, 20);
             this.textBox_address_folder.TabIndex = 22;
+            this.textBox_address_folder.Text = "select";
             // 
             // button_START
             // 
@@ -252,7 +255,7 @@
             // label_12
             // 
             this.label_12.AutoSize = true;
-            this.label_12.Location = new System.Drawing.Point(59, 88);
+            this.label_12.Location = new System.Drawing.Point(59, 67);
             this.label_12.Name = "label_12";
             this.label_12.Size = new System.Drawing.Size(25, 13);
             this.label_12.TabIndex = 24;
@@ -261,7 +264,7 @@
             // label_count_files
             // 
             this.label_count_files.AutoSize = true;
-            this.label_count_files.Location = new System.Drawing.Point(115, 88);
+            this.label_count_files.Location = new System.Drawing.Point(115, 67);
             this.label_count_files.Name = "label_count_files";
             this.label_count_files.Size = new System.Drawing.Size(28, 13);
             this.label_count_files.TabIndex = 25;
@@ -278,12 +281,32 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(37, 92);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(47, 13);
+            this.label1.TabIndex = 27;
+            this.label1.Text = "Full LOC";
+            // 
+            // label_full_LOC
+            // 
+            this.label_full_LOC.AutoSize = true;
+            this.label_full_LOC.Location = new System.Drawing.Point(115, 92);
+            this.label_full_LOC.Name = "label_full_LOC";
+            this.label_full_LOC.Size = new System.Drawing.Size(28, 13);
+            this.label_full_LOC.TabIndex = 28;
+            this.label_full_LOC.Text = "date";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.ClientSize = new System.Drawing.Size(206, 364);
+            this.Controls.Add(this.label_full_LOC);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.progressBar_count);
             this.Controls.Add(this.label_count_files);
             this.Controls.Add(this.label_12);
@@ -344,6 +367,8 @@
         private System.Windows.Forms.Label label_count_files;
         private System.Windows.Forms.ProgressBar progressBar_count;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.Label label_full_LOC;
+        private System.Windows.Forms.Label label1;
     }
 }
 

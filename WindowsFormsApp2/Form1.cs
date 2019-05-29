@@ -21,6 +21,7 @@ namespace WindowsFormsApp2
         decimal packageCount = 0;
         decimal methodsCount = 0;
         decimal codeLinesCount = 0;
+        decimal fullcodeLinesCount = 0;
         decimal methodPNAS = 0;
         decimal countWMC = 0;
         decimal countTCC = 0;
@@ -96,8 +97,22 @@ namespace WindowsFormsApp2
                 {
                 }
             }
+
+            foreach (string i in list_adress_file)
+            {
+                using (StreamReader sr = new StreamReader(i, System.Text.Encoding.Default))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        ++fullcodeLinesCount;
+                    }
+                }
+            }
+
+
             UpdateProgressBar(33);
-            if (list_adress_file.Count == 0 || folder_directori=="" || folder_directori== "select")
+            if (list_adress_file.Count == 0 || folder_directori=="" || folder_directori== "select" || textBox_address_folder.Text==""|| textBox_address_folder.Text =="select")
             {
                 MessageBox.Show("Select directory");
             }
@@ -211,6 +226,8 @@ namespace WindowsFormsApp2
             {
                 label_TCC.Text = Convert.ToString(0);
             }
+
+            label_full_LOC.Text = Convert.ToString(fullcodeLinesCount);
 
             UpdateProgressBar(100);
         }
