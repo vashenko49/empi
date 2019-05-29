@@ -121,37 +121,37 @@ namespace WindowsFormsApp2
                 foreach( var file in list_adress_file)
                 {
                     String arrayLine = File.ReadAllText(file);
-                    String clearfile = clearCode(arrayLine);
-                    clearfile = Regex.Replace(clearfile, @"\r\n", "");
-                    clearfile = Regex.Replace(clearfile, @"\t", " ");
-                    clearfile = Regex.Replace(clearfile, @"\s{2,}", " ");
-                    clearfile = Regex.Replace(clearfile, @"(\W) ", "$1");
-                    clearfile = Regex.Replace(clearfile, @" (\W)", "$1");
+                    String clearStringFile = clearCode(arrayLine);
+                    clearStringFile = Regex.Replace(clearStringFile, @"\r\n", "");
+                    clearStringFile = Regex.Replace(clearStringFile, @"\t", " ");
+                    clearStringFile = Regex.Replace(clearStringFile, @"\s{2,}", " ");
+                    clearStringFile = Regex.Replace(clearStringFile, @"(\W) ", "$1");
+                    clearStringFile = Regex.Replace(clearStringFile, @" (\W)", "$1");
 
                     //количество классов
-                    int NOC = Regex.Matches(clearfile, @"\b(class) \w+\b").Count;
+                    int NOC = Regex.Matches(clearStringFile, @"\b(class) \w+\b").Count;
                     classesCount += NOC;
                     //количество методов
-                    int NOM = Regex.Matches(clearfile, @"(public|protected|private|static|\s) +[\w\<\>\[\]]+\s+(\w+) *\([^\)]*\) *(\{?|[^;])").Count;
+                    int NOM = Regex.Matches(clearStringFile, @"(public|protected|private|static|\s) +[\w\<\>\[\]]+\s+(\w+) *\([^\)]*\) *(\{?|[^;])").Count;
                     methodsCount += NOM;
                     //PNAS
-                    int PNAS = Regex.Matches(clearfile, @"(public|static|\s) +[\w\<\>\[\]]+\s+(\w+) *\([^\)]*\) *(\{?|[^;])").Count;
+                    int PNAS = Regex.Matches(clearStringFile, @"(public|static|\s) +[\w\<\>\[\]]+\s+(\w+) *\([^\)]*\) *(\{?|[^;])").Count;
                     methodPNAS += PNAS;
 
 
                     UpdateProgressBar(66);
 
                     //количество пакетов
-                    int NOP = Regex.Matches(clearfile, @"^(package)\s?[\w.]+;").Count;
+                    int NOP = Regex.Matches(clearStringFile, @"^(package)\s?[\w.]+;").Count;
                     packageCount += NOP;
                     //количество строчек кода
-                    int LOC = Regex.Matches(clearfile, @";").Count;
+                    int LOC = Regex.Matches(clearStringFile, @";").Count;
                     codeLinesCount += LOC;
                     //WMC
-                    int WMC = Regex.Matches(clearfile, @"\b\w+(int|boolean|try|do|while|catch|double|float|exit|this|else|switch|break|return|catch|finally)\b").Count;
+                    int WMC = Regex.Matches(clearStringFile, @"\b\w+(int|boolean|try|do|while|catch|double|float|exit|this|else|switch|break|return|catch|finally)\b").Count;
                     countWMC += WMC;
                     //TCC
-                    int TCC= Regex.Matches(clearfile, @"(public|static|\s) +[\w\<\>\[\]]+\s+(\w+) *\([^\)]*\) *(\{?|[^;])").Count;
+                    int TCC= Regex.Matches(clearStringFile, @"(public|static|\s) +[\w\<\>\[\]]+\s+(\w+) *\([^\)]*\) *(\{?|[^;])").Count;
                     if (TCC == 0)
                     {
                         countTCC += 0;
@@ -162,17 +162,17 @@ namespace WindowsFormsApp2
                     }
                     //CALL
                     int CALL = 0;
-                    foreach(Match match in Regex.Matches(clearfile, @"\b\w+(public|protected|private|static|\s)\b"))
+                    foreach(Match match in Regex.Matches(clearStringFile, @"\b\w+(public|protected|private|static|\s)\b"))
                     {
 
-                        CALL += Regex.Matches(clearfile,match.Value).Count;
+                        CALL += Regex.Matches(clearStringFile,match.Value).Count;
                     }
                     countCALL += CALL;
                     int NDD = 0;
-                    foreach (Match match in Regex.Matches(clearfile, @"\b\w+(class|\s)\b"))
+                    foreach (Match match in Regex.Matches(clearStringFile, @"\b\w+(class|\s)\b"))
                     {
 
-                        NDD += Regex.Matches(clearfile, match.Value).Count;
+                        NDD += Regex.Matches(clearStringFile, match.Value).Count;
                     }
                     countNDD += NDD;
                 }
@@ -188,7 +188,7 @@ namespace WindowsFormsApp2
 
             if (countNDD != 0)
             {
-                label_NDD.Text = Convert.ToString(Math.Round(classesCount / countNDD, 6));
+                label_NDD.Text = Convert.ToString(Math.Round(classesCount / countNDD, 6)*100);
             }
             else
             {
@@ -196,7 +196,7 @@ namespace WindowsFormsApp2
             }
             if (countCALL != 0)
             {
-                label_CALL.Text = Convert.ToString(Math.Round(methodsCount / countCALL, 6));
+                label_CALL.Text = Convert.ToString(Math.Round(methodsCount / countCALL, 6)*100);
             }
             else
             {
@@ -237,13 +237,13 @@ namespace WindowsFormsApp2
             var result = new StringBuilder();
             for (int i = 0; i < source.Length;)
             {
-                if (TryRead(source, ref i, "//")) { GoTo(source, ref i, "\r\n"); result.AppendLine(); }
+                if (Read(source, ref i, "//")) { GoTo(source, ref i, "\r\n"); result.AppendLine(); }
                 else
-                if (TryRead(source, ref i, "/*")) GoTo(source, ref i, "*/");
+                if (Read(source, ref i, "/*")) GoTo(source, ref i, "*/");
                 else
-                if (TryRead(source, ref i, "@\"")) { GoTo(source, ref i, "\"", "\"\""); result.Append("\"\""); }
+                if (Read(source, ref i, "@\"")) { GoTo(source, ref i, "\"", "\"\""); result.Append("\"\""); }
                 else
-                if (TryRead(source, ref i, "\"")) { GoTo(source, ref i, "\"", "\\\""); result.Append("\"\""); }
+                if (Read(source, ref i, "\"")) { GoTo(source, ref i, "\"", "\\\""); result.Append("\"\""); }
                 else
                 {
                     result.Append(source[i]);
@@ -258,12 +258,12 @@ namespace WindowsFormsApp2
             for (; i < s.Length; i++)
             {
                 if (!String.IsNullOrEmpty(skip))
-                    while (TryRead(s, ref i, skip)) ;
-                if (TryRead(s, ref i, pattern)) break;
+                    while (Read(s, ref i, skip)) ;
+                if (Read(s, ref i, pattern)) break;
             }
         }
 
-        static bool TryRead(string s, ref int pos, string pattern)
+        static bool Read(string s, ref int pos, string pattern)
         {
             if (pattern.Length == 0) return true;
 
